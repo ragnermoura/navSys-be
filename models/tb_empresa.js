@@ -1,33 +1,39 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 
-const Nivel = require("./tb_nivel");
-const Status = require("./tb_status");
+const Usuario = require("./tb_nivel");
+const Embarcacao = require("./tb_embarcacao");
+const Plano = require("./tb_planos");
+const Modulos = require("./tb_modulos");
 
-const Usuario = conn.define("tb001_usuario", {
-  id_user: {
+const Empresa = conn.define("tb004_empresa", {
+  id_empresa: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  nome: {
+  razao_social: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  sobrenome: {
+  cnpj: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  email: {
+  endereco: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
   },
-  senha: {
+  telefone1: {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  foto: {
+  telefone2: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  logo: {
     type: DataTypes.STRING,
     allowNull: true,
   },
@@ -42,14 +48,24 @@ const Usuario = conn.define("tb001_usuario", {
 }, { freezeTableName: true });
 
 
-Usuario.belongsTo(Nivel, {
-  foreignKey: "id_nivel",
+Empresa.belongsTo(Usuario, {
+  foreignKey: "id_user",
   foreignKeyConstraint: true,
 });
 
-Usuario.belongsTo(Status, {
-  foreignKey: "id_status",
+Empresa.belongsTo(Modulos, {
+  foreignKey: "id_modulos",
   foreignKeyConstraint: true,
 });
 
-module.exports = Usuario;
+Empresa.belongsTo(Plano, {
+    foreignKey: "id_plano",
+    foreignKeyConstraint: true,
+  });
+  
+  Empresa.belongsTo(Embarcacao, {
+    foreignKey: "id_embarcacao",
+    foreignKeyConstraint: true,
+  });
+
+module.exports = Empresa;
