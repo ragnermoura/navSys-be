@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 
 const Usuario = require("./tb_nivel");
-const Embarcacao = require("./tb_embarcacao");
+const Embarcacao = require("./tb_embarcacao"); // Importe a model de Embarcacao aqui
 const Plano = require("./tb_planos");
 const Modulos = require("./tb_modulos");
 
@@ -37,16 +37,16 @@ const Empresa = conn.define("tb004_empresa", {
     type: DataTypes.STRING,
     allowNull: true,
   },
-  id_nivel: {
+  desconto: {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
-  id_status: {
-    type: DataTypes.INTEGER,
+  valor_desconto: {
+    type: DataTypes.STRING,
     allowNull: true,
   },
-}, { freezeTableName: true });
 
+}, { freezeTableName: true });
 
 Empresa.belongsTo(Usuario, {
   foreignKey: "id_user",
@@ -59,13 +59,13 @@ Empresa.belongsTo(Modulos, {
 });
 
 Empresa.belongsTo(Plano, {
-    foreignKey: "id_plano",
-    foreignKeyConstraint: true,
-  });
-  
-  Empresa.belongsTo(Embarcacao, {
-    foreignKey: "id_embarcacao",
-    foreignKeyConstraint: true,
-  });
+  foreignKey: "id_plano",
+  foreignKeyConstraint: true,
+});
+
+Empresa.belongsTo(Embarcacao, {
+  foreignKey: "id_embarcacao",
+  foreignKeyConstraint: true,
+});
 
 module.exports = Empresa;

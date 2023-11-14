@@ -3,7 +3,6 @@ const conn = require("../data/conn");
 
 const Destino = require("./tb_destino");
 const Linha = require("./tb_linha");
-const Token = require("./tb_token");
 
 const Embarcacao = conn.define("tb008_embarcacao", {
     id_embarcacao: {
@@ -49,10 +48,11 @@ const Embarcacao = conn.define("tb008_embarcacao", {
         type: DataTypes.INTEGER,
         allowNull: true,
     },
-    id_token: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
+    token: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
+      },
 }, { freezeTableName: true });
 
 
@@ -66,9 +66,5 @@ Embarcacao.belongsTo(Linha, {
     foreignKeyConstraint: true,
 });
 
-Embarcacao.belongsTo(Token, {
-    foreignKey: "id_token",
-    foreignKeyConstraint: true,
-});
 
 module.exports = Embarcacao;
