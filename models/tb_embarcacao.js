@@ -1,8 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 
-const Destino = require("./tb_destino");
-const Linha = require("./tb_linha");
 
 const Embarcacao = conn.define("tb008_embarcacao", {
     id_embarcacao: {
@@ -40,14 +38,6 @@ const Embarcacao = conn.define("tb008_embarcacao", {
         allowNull: false,
     },
    
-    id_destinos: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
-    id_linha: {
-        type: DataTypes.INTEGER,
-        allowNull: true,
-    },
     token: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -55,16 +45,6 @@ const Embarcacao = conn.define("tb008_embarcacao", {
       },
 }, { freezeTableName: true });
 
-
-Embarcacao.belongsTo(Destino, {
-    foreignKey: "id_destino",
-    foreignKeyConstraint: true,
-});
-
-Embarcacao.belongsTo(Linha, {
-    foreignKey: "id_linha",
-    foreignKeyConstraint: true,
-});
 
 
 module.exports = Embarcacao;

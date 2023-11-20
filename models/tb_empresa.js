@@ -1,8 +1,8 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 
-const Usuario = require("./tb_nivel");
-const Embarcacao = require("./tb_embarcacao"); // Importe a model de Embarcacao aqui
+const Usuario = require("./tb_usuario");
+const Embarcacao = require("./tb_embarcacao");
 const Plano = require("./tb_planos");
 const Modulos = require("./tb_modulos");
 
@@ -35,15 +35,31 @@ const Empresa = conn.define("tb004_empresa", {
   },
   logo: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
   desconto: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
   },
   valor_desconto: {
     type: DataTypes.STRING,
+    allowNull: false,
+  },
+  id_user: {
+    type: DataTypes.INTEGER,
     allowNull: true,
+  },
+  id_modulos: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  id_plano: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
+  id_embarcacao: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
   },
 
 }, { freezeTableName: true });

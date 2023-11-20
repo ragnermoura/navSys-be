@@ -1,7 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 
-const Linha = require("./tb_linha");
 
 const Destinos = conn.define(
     "tb011_destinos",
@@ -16,7 +15,23 @@ const Destinos = conn.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
+        data_saida: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        hora_saida: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
         ponto_b: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        data_chegada: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        hora_chegada: {
             type: DataTypes.STRING,
             allowNull: false,
         },
@@ -24,17 +39,16 @@ const Destinos = conn.define(
             type: DataTypes.STRING,
             allowNull: false,
         },
-        id_linha: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
+        marcador: {
+            type: DataTypes.STRING,
+            allowNull: false,
         },
+      
+      
     },
     { freezeTableName: true });
 
-    Destinos.belongsTo(Linha, {
-        foreignKey: "id_linha",
-        foreignKeyConstraint: true,
-    });
+  
 
 
 module.exports = Destinos;

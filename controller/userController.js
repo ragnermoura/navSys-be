@@ -1,53 +1,56 @@
-const express = require("express");
-const router = express.Router();
-const { Sequelize } = require("sequelize");
 const Usuario = require("../models/tb_usuario");
+const bcrypt = require('bcrypt');
 
-// Rota para obter todos os usuários
-router.get("/", async (req, res) => {
+const obterUsuarios = async (req, res, next) => {
   try {
     const usuarios = await Usuario.findAll();
     res.json(usuarios);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-// Rota para criar um novo usuário
-router.post("/create", async (req, res) => {
+const cadastrarUsuario = async (req, res, next) => {
   try {
-    const novoUsuario = await Usuario.create(req.body);
+    const { nome, sobrenome, email, senha, id_status, id_nivel } = req.body;
+    const hashedPassword = await bcrypt.hash(senha, 10);
+    const novoUsuario = await Usuario.create({
+      nome,
+      sobrenome,
+      email,
+      senha: hashedPassword,
+      id_status,
+      id_nivel,
+    });
+
     res.json(novoUsuario);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
+};
 
-// Rota para atualizar um usuário existente
-router.patch("/edit/:id", async (req, res) => {
-    const { id } = req.params;
-    try {
-      const [updated] = await Usuario.update(req.body, {
-        where: { id: id },
-      });
-      if (updated) {
-        const usuario = await Usuario.findByPk(id);
-        res.json(usuario);
-      } else {
-        res.status(404).json({ error: "Usuário não encontrado" });
-      }
-    } catch (error) {
-      res.status(400).json({ error: error.message });
+const atualizarUsuario = async (req, res, next) => {
+  const { id_user } = req.params;
+  try {
+    const [updated] = await Usuario.update(req.body, {
+      where: { id: id_user },
+    });
+    if (updated) {
+      const usuario = await Usuario.findByPk(id_user);
+      res.json(usuario);
+    } else {
+      res.status(404).json({ error: "Usuário não encontrado" });
     }
-  });
-  
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
 
-// Rota para excluir um usuário
-router.delete("/delete/:id", async (req, res) => {
-  const { id } = req.params;
+const excluirUsuario = async (req, res, next) => {
+  const { id_user } = req.params;
   try {
     const deleted = await Usuario.destroy({
-      where: { id: id },
+      where: { id: id_user },
     });
     if (deleted) {
       res.status(204).send("Usuário excluído com sucesso");
@@ -57,6 +60,11 @@ router.delete("/delete/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  obterUsuarios,
+  cadastrarUsuario,
+  atualizarUsuario,
+  excluirUsuario,
+};

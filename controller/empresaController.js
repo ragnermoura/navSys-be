@@ -1,37 +1,70 @@
-const express = require("express");
-const router = express.Router();
-const { Sequelize } = require("sequelize");
-const Empresa = require("../models/tb_empresa"); 
+const Empresa = require("../models/tb_empresa");
+const Usuario = require("../models/tb_usuario");
+const Embarcacao = require("../models/tb_embarcacao");
+const Plano = require("../models/tb_planos");
+const Modulos = require("../models/tb_modulos");
 
-// Rota para obter todas as empresas
-router.get("/", async (req, res) => {
+const obterEmpresas = async (req, res) => {
   try {
-    const empresas = await Empresa.findAll();
+    const empresas = await Empresa.findAll({
+      include: [Usuario, Embarcacao, Plano, Modulos],
+    });
     res.json(empresas);
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-// Rota para criar uma nova empresa e gerar um token
-router.post("/create", async (req, res) => {
+const criarEmpresa = async (req, res) => {
   try {
-    const novaEmpresa = await Embarcacao.create(req.body);
+    const {
+      razao_social,
+      cnpj,
+      endereco,
+      telefone1,
+      telefone2,
+      logo,
+      desconto,
+      valor_desconto,
+      id_user,
+      id_modulos,
+      id_plano,
+      id_embarcacao,
+    } = req.body;
+
+    const novaEmpresa = await Empresa.create({
+      razao_social,
+      cnpj,
+      endereco,
+      telefone1,
+      telefone2,
+      logo,
+      desconto,
+      valor_desconto,
+      id_user,
+      id_modulos,
+      id_plano,
+      id_embarcacao,
+    });
+
     res.json(novaEmpresa);
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
+};
 
-// Rota para atualizar uma empresa existente parcialmente
-router.patch("/edit/:id", async (req, res) => {
-  const { id } = req.params;
+const atualizarEmpresa = async (req, res) => {
   try {
+    const { id } = req.params;
+
     const [updated] = await Empresa.update(req.body, {
       where: { id: id },
     });
+
     if (updated) {
-      const empresa = await Empresa.findByPk(id);
+      const empresa = await Empresa.findByPk(id, {
+        include: [Usuario, Embarcacao, Plano, Modulos],
+      });
       res.json(empresa);
     } else {
       res.status(404).json({ error: "Empresa não encontrada" });
@@ -39,15 +72,16 @@ router.patch("/edit/:id", async (req, res) => {
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
-});
+};
 
-// Rota para excluir uma empresa
-router.delete("/delete/:id", async (req, res) => {
-  const { id } = req.params;
+const excluirEmpresa = async (req, res) => {
   try {
+    const { id } = req.params;
+
     const deleted = await Empresa.destroy({
       where: { id: id },
     });
+
     if (deleted) {
       res.status(204).send("Empresa excluída com sucesso");
     } else {
@@ -56,6 +90,11 @@ router.delete("/delete/:id", async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
-});
+};
 
-module.exports = router;
+module.exports = {
+  obterEmpresas,
+  criarEmpresa,
+  atualizarEmpresa,
+  excluirEmpresa,
+};

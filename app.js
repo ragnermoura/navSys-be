@@ -8,7 +8,16 @@ require('dotenv').config();
 
 //Rotas aqui
 
-//const rotaLogin = require('./routes/login')
+const rotaLogin = require('./routes/login');
+const rotaUser = require('./routes/usuario');
+const rotaNivel = require('./routes/nivel');
+const rotaStatus = require('./routes/status');
+const rotaPlano = require('./routes/plano');
+const rotaEmpresa = require('./routes/empresa');
+const rotaEmbarcaco = require('./routes/embarcacao');
+const rotaLugares = require('./routes/lugares');
+const rotaDestino = require('./routes/destino');
+const rotaPassagem = require('./routes/passagem');
 
 
 
@@ -34,6 +43,15 @@ app.use((req, res, next) => {
 
 //EndPoints Aqui
 app.use('/login', rotaLogin);
+app.use('/usuario', rotaUser);
+app.use('/nivel', rotaNivel);
+app.use('/status', rotaStatus);
+app.use('/planos', rotaPlano);
+app.use('/empresa', rotaEmpresa);
+app.use('/embarcacao', rotaEmbarcaco);
+app.use('/lugares', rotaLugares);
+app.use('/destinos', rotaDestino);
+app.use('/passagem', rotaPassagem);
 
 
 
