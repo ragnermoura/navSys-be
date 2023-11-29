@@ -1,33 +1,18 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 
+const Rota = require("./tb_rota");
 
-const Passagem = conn.define("tb0014_passagem", {
+
+const Passagem = conn.define("tb014_passagem", {
     id_passagem: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
     },
-    origem: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    destino: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    valor: {
-        type: DataTypes.STRING,
+    id_rota: {
+        type: DataTypes.INTEGER,
         allowNull: true,
-    },
-    data_viajem: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        unique: true,
-    },
-    hora_viajem: {
-        type: DataTypes.STRING,
-        allowNull: false,
     },
     nome: {
         type: DataTypes.STRING,
@@ -94,8 +79,13 @@ const Passagem = conn.define("tb0014_passagem", {
         allowNull: false,
     },
 
-   
+
 }, { freezeTableName: true });
+
+Passagem.belongsTo(Rota, {
+    foreignKey: "id_rota",
+    foreignKeyConstraint: true,
+});
 
 
 

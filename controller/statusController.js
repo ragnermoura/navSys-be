@@ -2,12 +2,26 @@ const Status = require('../models/tb_status');
 
 const criarStatus = async (req, res, next) => {
   try {
-    const novoStatus = await Status.create(req.body);
-    return res.status(201).send({ response: novoStatus });
+    if (!Array.isArray(req.body)) {
+      return res.status(400).send({ error: "Os dados enviados devem ser um array" });
+    }
+    const statusCriados = await Promise.all(req.body.map(async (statusData) => {
+      if (!statusData.label) {
+        throw new Error("O campo 'label' é obrigatório em cada item do array");
+      }
+      return await Status.create(statusData);
+    }));
+
+    return res.status(201).send({ response: statusCriados });
   } catch (error) {
-    return res.status(500).send({ error: error.message });
+    if (error.message.includes("O campo 'label' é obrigatório")) {
+      return res.status(400).send({ error: error.message });
+    } else {
+      return res.status(500).send({ error: "Erro interno do servidor" });
+    }
   }
 };
+
 
 const obterStatus = async (req, res, next) => {
   try {

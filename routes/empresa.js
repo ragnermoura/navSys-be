@@ -6,8 +6,8 @@ const bcrypt = require('bcrypt');
 const empresaController = require("../controller/empresaController");
 
 router.get("/", empresaController.obterEmpresas);
-router.post("/create", empresaController.criarEmpresa);
+router.post("/cadastro", empresaController.criarEmpresa);
 router.patch("/:id/edit", empresaController.atualizarEmpresa);
-router.delete("/:id/delete", empresaController.excluirEmpresa);
+router.delete("/:id/delete", empresaController.deletarEmpresa);
 
 module.exports = router;

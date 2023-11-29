@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Destinos = require("../models/tb_destino");
+const Destinos = require("../models/tb_rota");
 
 const obterDestinos = async (req, res) => {
   try {

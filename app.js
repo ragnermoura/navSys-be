@@ -16,9 +16,13 @@ const rotaPlano = require('./routes/plano');
 const rotaEmpresa = require('./routes/empresa');
 const rotaEmbarcaco = require('./routes/embarcacao');
 const rotaLugares = require('./routes/lugares');
-const rotaDestino = require('./routes/destino');
+const rotaRota = require('./routes/rota');
 const rotaPassagem = require('./routes/passagem');
-
+const rotaModulos = require('./routes/modulos');
+const rotaLogo = require('./routes/logo');
+const rotaAvatar = require('./routes/avatar');
+const rotaFotoEmbarcacao = require('./routes/fotoEmbarcacao');
+const rotaCheckin = require('./routes/checkin');
 
 
 app.use(morgan('dev'));
@@ -50,8 +54,13 @@ app.use('/planos', rotaPlano);
 app.use('/empresa', rotaEmpresa);
 app.use('/embarcacao', rotaEmbarcaco);
 app.use('/lugares', rotaLugares);
-app.use('/destinos', rotaDestino);
+app.use('/rota', rotaRota);
 app.use('/passagem', rotaPassagem);
+app.use('/modulos', rotaModulos);
+app.use('/logo', rotaLogo);
+app.use('/avatar', rotaAvatar);
+app.use('/fotoEmbarcacao', rotaFotoEmbarcacao);
+app.use('/checkin', rotaCheckin);
 
 
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const destinosController = require("../controller/destinoController");
+const destinosController = require("../controller/rotaController");
 
 router.get("/", destinosController.obterDestinos);
 router.post("/cadastro", destinosController.criarDestino);

@@ -1,70 +1,96 @@
-const Usuario = require("../models/tb_usuario");
 const bcrypt = require('bcrypt');
+const Usuario = require('../models/tb_usuario');
+
+
+const criarUsuario = async (req, res, next) => {
+  try {
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(req.body.senha, saltRounds);
+
+    
+    const usuario = await Usuario.create({
+      nome: req.body.nome,
+      sobrenome: req.body.sobrenome,
+      username: req.body.username,
+      email: req.body.email,
+      senha: hashedPassword,
+      nome_agencia: req.body.nome_agencia,
+      telefone: req.body.telefone,
+      municipio: req.body.municipio,
+      id_nivel: req.body.id_nivel,
+      id_status: req.body.id_status
+    });
+
+    
+
+    res.status(201).send(usuario);
+  } catch (error) {
+
+    console.log(error)
+    next(error);
+  }
+};
+
 
 const obterUsuarios = async (req, res, next) => {
   try {
     const usuarios = await Usuario.findAll();
-    res.json(usuarios);
+    res.status(200).send(usuarios);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
-const cadastrarUsuario = async (req, res, next) => {
+
+const obterUsuarioPorId = async (req, res, next) => {
   try {
-    const { nome, sobrenome, email, senha, id_status, id_nivel } = req.body;
-    const hashedPassword = await bcrypt.hash(senha, 10);
-    const novoUsuario = await Usuario.create({
-      nome,
-      sobrenome,
-      email,
-      senha: hashedPassword,
-      id_status,
-      id_nivel,
-    });
-
-    res.json(novoUsuario);
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) {
+      return res.status(404).send({ message: 'Usuário não encontrado' });
+    }
+    res.status(200).send(usuario);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
+
 
 const atualizarUsuario = async (req, res, next) => {
-  const { id_user } = req.params;
   try {
     const [updated] = await Usuario.update(req.body, {
-      where: { id: id_user },
+      where: { id_user: req.params.id_user }
     });
     if (updated) {
-      const usuario = await Usuario.findByPk(id_user);
-      res.json(usuario);
+      const updatedUsuario = await Usuario.findByPk(req.params.id_user);
+      res.status(200).send(updatedUsuario);
     } else {
-      res.status(404).json({ error: "Usuário não encontrado" });
+      res.status(404).send({ message: 'Usuário não encontrado' });
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
-const excluirUsuario = async (req, res, next) => {
-  const { id_user } = req.params;
+
+const deletarUsuario = async (req, res, next) => {
   try {
     const deleted = await Usuario.destroy({
-      where: { id: id_user },
+      where: { id_user: req.params.id_user }
     });
     if (deleted) {
-      res.status(204).send("Usuário excluído com sucesso");
+      res.status(200).send({ message: 'Usuário deletado com sucesso' });
     } else {
-      res.status(404).json({ error: "Usuário não encontrado" });
+      res.status(404).send({ message: 'Usuário não encontrado' });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
 module.exports = {
+  criarUsuario,
   obterUsuarios,
-  cadastrarUsuario,
+  obterUsuarioPorId,
   atualizarUsuario,
-  excluirUsuario,
+  deletarUsuario
 };

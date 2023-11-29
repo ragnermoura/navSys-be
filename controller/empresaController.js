@@ -1,100 +1,75 @@
-const Empresa = require("../models/tb_empresa");
-const Usuario = require("../models/tb_usuario");
-const Embarcacao = require("../models/tb_embarcacao");
-const Plano = require("../models/tb_planos");
-const Modulos = require("../models/tb_modulos");
+const Empresa = require('../models/tb_empresa');
 
-const obterEmpresas = async (req, res) => {
+// Criar uma nova empresa
+const criarEmpresa = async (req, res, next) => {
   try {
-    const empresas = await Empresa.findAll({
-      include: [Usuario, Embarcacao, Plano, Modulos],
-    });
-    res.json(empresas);
+    const empresa = await Empresa.create(req.body);
+    res.status(201).send(empresa);
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
-const criarEmpresa = async (req, res) => {
+// Buscar todas as empresas
+const obterEmpresas = async (req, res, next) => {
   try {
-    const {
-      razao_social,
-      cnpj,
-      endereco,
-      telefone1,
-      telefone2,
-      logo,
-      desconto,
-      valor_desconto,
-      id_user,
-      id_modulos,
-      id_plano,
-      id_embarcacao,
-    } = req.body;
-
-    const novaEmpresa = await Empresa.create({
-      razao_social,
-      cnpj,
-      endereco,
-      telefone1,
-      telefone2,
-      logo,
-      desconto,
-      valor_desconto,
-      id_user,
-      id_modulos,
-      id_plano,
-      id_embarcacao,
-    });
-
-    res.json(novaEmpresa);
+    const empresas = await Empresa.findAll();
+    res.status(200).send(empresas);
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
-const atualizarEmpresa = async (req, res) => {
+// Buscar uma empresa pelo ID
+const obterEmpresaPorId = async (req, res, next) => {
   try {
-    const { id } = req.params;
+    const empresa = await Empresa.findByPk(req.params.id);
+    if (!empresa) {
+      return res.status(404).send({ message: 'Empresa não encontrada' });
+    }
+    res.status(200).send(empresa);
+  } catch (error) {
+    next(error);
+  }
+};
 
+// Atualizar uma empresa pelo ID
+const atualizarEmpresa = async (req, res, next) => {
+  try {
     const [updated] = await Empresa.update(req.body, {
-      where: { id: id },
+      where: { id_empresa: req.params.id }
     });
-
     if (updated) {
-      const empresa = await Empresa.findByPk(id, {
-        include: [Usuario, Embarcacao, Plano, Modulos],
-      });
-      res.json(empresa);
+      const updatedEmpresa = await Empresa.findByPk(req.params.id);
+      res.status(200).send(updatedEmpresa);
     } else {
-      res.status(404).json({ error: "Empresa não encontrada" });
+      res.status(404).send({ message: 'Empresa não encontrada' });
     }
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    next(error);
   }
 };
 
-const excluirEmpresa = async (req, res) => {
+// Deletar uma empresa pelo ID
+const deletarEmpresa = async (req, res, next) => {
   try {
-    const { id } = req.params;
-
     const deleted = await Empresa.destroy({
-      where: { id: id },
+      where: { id_empresa: req.params.id }
     });
-
     if (deleted) {
-      res.status(204).send("Empresa excluída com sucesso");
+      res.status(200).send({ message: 'Empresa deletada com sucesso' });
     } else {
-      res.status(404).json({ error: "Empresa não encontrada" });
+      res.status(404).send({ message: 'Empresa não encontrada' });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    next(error);
   }
 };
 
 module.exports = {
-  obterEmpresas,
   criarEmpresa,
+  obterEmpresas,
+  obterEmpresaPorId,
   atualizarEmpresa,
-  excluirEmpresa,
+  deletarEmpresa
 };

@@ -24,12 +24,30 @@ const obterNivelPorId = async (req, res, next) => {
 };
 const criarNivel = async (req, res, next) => {
   try {
-    const novoNivel = await Nivel.create(req.body);
-    return res.status(201).send({ response: novoNivel });
+    if (!Array.isArray(req.body)) {
+      return res.status(400).send({ error: "Os dados enviados devem ser um array" });
+    }
+
+    const niveisCriados = await Promise.all(req.body.map(async (nivelData) => {
+      if (!nivelData.label || !nivelData.descricao) {
+        throw new Error("Os campos 'label' e 'descricao' são obrigatórios em cada item do array");
+      }
+      return await Nivel.create(nivelData);
+    }));
+
+    return res.status(201).send({ response: niveisCriados });
   } catch (error) {
-    return res.status(500).send({ error: error.message });
+    
+    if (error.message.includes("Os campos 'label' e 'descricao' são obrigatórios")) {
+      return res.status(400).send({ error: error.message });
+    } else {
+    
+      return res.status(500).send({ error: "Erro interno do servidor" });
+    }
   }
 };
+
+
 const atualizarNivel = async (req, res, next) => {
   try {
     const nivelAtualizado = await Nivel.update(req.body, {

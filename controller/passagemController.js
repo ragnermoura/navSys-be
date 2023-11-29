@@ -1,4 +1,5 @@
 const Passagem = require('../models/tb_passagem');
+const Rota = require('../models/tb_rota');
 
 // Criar uma nova passagem
 async function criarPassagem(req, res) {
@@ -10,21 +11,31 @@ async function criarPassagem(req, res) {
   }
 }
 
-// Buscar todas as passagens
+// Buscar todas as passagens com informações da Rota
 async function buscarTodasPassagens(req, res) {
   try {
-    const passagens = await Passagem.findAll();
+    const passagens = await Passagem.findAll({
+      include: [{
+        model: Rota,
+        attributes: ['origem', 'destino', 'data_saida', 'hora_saida', 'data_chegada', 'hora_chegada', 'valor', 'marcador'] // Adicione os campos que você quer incluir da Rota
+      }]
+    });
     return res.status(200).json({ passagens });
   } catch (error) {
     return res.status(500).json({ error: error.message });
   }
 }
 
-// Buscar uma passagem específica pelo ID
+// Buscar uma passagem específica pelo ID com informações da Rota
 async function buscarPassagemPorId(req, res) {
   const { id } = req.params;
   try {
-    const passagem = await Passagem.findByPk(id);
+    const passagem = await Passagem.findByPk(id, {
+      include: [{
+        model: Rota,
+        attributes: ['origem', 'destino', 'data_saida', 'hora_saida', 'data_chegada', 'hora_chegada', 'valor', 'marcador'] // Adicione os campos que você quer incluir da Rota
+      }]
+    });
     if (!passagem) {
       return res.status(404).json({ error: 'Passagem não encontrada' });
     }

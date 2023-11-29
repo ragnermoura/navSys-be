@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
+const Empresa = require("./tb_empresa");
 
 
 const Embarcacao = conn.define("tb008_embarcacao", {
@@ -8,7 +9,7 @@ const Embarcacao = conn.define("tb008_embarcacao", {
         autoIncrement: true,
         primaryKey: true,
     },
-    nome: {
+    nome_embarcacao: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -16,14 +17,10 @@ const Embarcacao = conn.define("tb008_embarcacao", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-    imagem: {
-        type: DataTypes.STRING,
-        allowNull: true,
-    },
     cap_passageiro: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
+       
     },
     cap_carga: {
         type: DataTypes.STRING,
@@ -37,13 +34,26 @@ const Embarcacao = conn.define("tb008_embarcacao", {
         type: DataTypes.STRING,
         allowNull: false,
     },
-   
+    acentos: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    id_empresa: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
     token: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
       },
 }, { freezeTableName: true });
+
+Embarcacao.belongsTo(Empresa, {
+    foreignKey: "id_empresa",
+    foreignKeyConstraint: true,
+});
+
 
 
 

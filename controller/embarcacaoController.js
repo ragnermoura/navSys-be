@@ -1,4 +1,25 @@
 const Embarcacao = require("../models/tb_embarcacao");
+const jwt = require("jsonwebtoken");
+
+const SECRET_KEY = 'navsysSistemadeGestaodeNavegacao';
+
+exports.criarEmbarcacao = async (req, res) => {
+  try {
+    // Gerar um token JWT aleatório
+    const token = jwt.sign({ nome_embarcacao: req.body.nome_embarcacao }, SECRET_KEY);
+
+    // Adicionar o token ao corpo da requisição
+    req.body.token = token;
+
+    // Criar a embarcação
+    const novaEmbarcacao = await Embarcacao.create(req.body);
+    res.status(201).json(novaEmbarcacao);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+
+    console.log(error)
+  }
+};
 
 exports.obterEmbarcacoes = async (req, res) => {
   try {
@@ -6,18 +27,6 @@ exports.obterEmbarcacoes = async (req, res) => {
     res.json(embarcacoes);
   } catch (error) {
     res.status(500).json({ error: error.message });
-  }
-};
-
-exports.criarEmbarcacao = async (req, res) => {
-  try {
-    const token = jwt.sign({ id: generateRandomToken(300) }, segredo);
-    req.body.token = token;
-
-    const novaEmbarcacao = await Embarcacao.create(req.body);
-    res.json(novaEmbarcacao);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
   }
 };
 

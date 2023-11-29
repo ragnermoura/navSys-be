@@ -7,7 +7,7 @@ const Nivel = conn.define(
     id_nivel: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
-      allowNull: false,
+      allowNull: false, 
       primaryKey: true,
     },
     label: {
