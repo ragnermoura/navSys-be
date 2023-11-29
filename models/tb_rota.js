@@ -5,7 +5,7 @@ const Embarcacao = require("./tb_embarcacao");
 
 
 const Rota = conn.define(
-    "tb011_rota",
+    "tb009_rota",
     {
         id_rota: {
             type: DataTypes.INTEGER,

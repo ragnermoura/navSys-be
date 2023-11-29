@@ -4,7 +4,7 @@ const conn = require("../data/conn");
 const Rota = require("./tb_rota");
 
 
-const Passagem = conn.define("tb014_passagem", {
+const Passagem = conn.define("tb011_passagem", {
     id_passagem: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

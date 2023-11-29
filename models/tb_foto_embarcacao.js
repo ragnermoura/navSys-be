@@ -4,7 +4,7 @@ const conn = require("../data/conn");
 const Embarcacao = require("./tb_embarcacao");
 
 const FotoEmbarcacao = conn.define(
-    "tb014_logo_empresa",
+    "tb014_foto_embarcacao",
     {
         id_logo: {
             type: DataTypes.INTEGER,

@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 
 const Lugares = conn.define(
-  "tb013_lugares",
+  "tb010_lugares",
   {
     id_lugares: {
       type: DataTypes.INTEGER,

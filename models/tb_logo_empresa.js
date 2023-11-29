@@ -4,7 +4,7 @@ const conn = require("../data/conn");
 const Empresa = require("./tb_empresa");
 
 const Logo = conn.define(
-    "tb016_logo_empresa",
+    "tb012_logo_empresa",
     {
         id_logo: {
             type: DataTypes.INTEGER,

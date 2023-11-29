@@ -4,7 +4,7 @@ const conn = require("../data/conn");
 const Usuario = require("./tb_usuario");
 
 const Avatar = conn.define(
-    "tb015_avatar_user",
+    "tb013_avatar_user",
     {
         id_foto: {
             type: DataTypes.INTEGER,
