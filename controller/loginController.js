@@ -13,7 +13,7 @@ const autenticarUsuario = async (req, res, next) => {
       where: { username: username },
       include: [{
         model: Empresa,
-        attributes: ['razao_social', 'cnpj', 'endereco', 'telefone1', 'telefone2', 'id_modulos', 'id_plano']
+        attributes: ['id_empresa','razao_social', 'cnpj', 'endereco', 'telefone1', 'telefone2', 'id_modulos', 'id_plano']
       }]
     });
 
@@ -30,12 +30,11 @@ const autenticarUsuario = async (req, res, next) => {
           nome: user.nome,
           sobrenome: user.sobrenome,
           email: user.email,
-          username: user.username, // Incluindo username no token
-          senha: user.senha,
-          avatar: user.avatar,
+          username: user.username,
           id_nivel: user.id_nivel,
           id_status: user.id_status,
-          empresa: user.Empresa
+          id_empresa: user.id_empresa,
+          id_embarcacao: user.id_embarcacao
         },
         process.env.JWT_KEY,
         { expiresIn: "6h" }

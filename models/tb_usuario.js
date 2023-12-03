@@ -4,6 +4,7 @@ const conn = require("../data/conn");
 const Nivel = require("./tb_nivel");
 const Status = require("./tb_status");
 const Empresa = require("./tb_empresa");
+const Embarcacao = require("./tb_embarcacao");
 
 const Usuario = conn.define("tb001_usuario", {
   id_user: {
@@ -49,6 +50,10 @@ const Usuario = conn.define("tb001_usuario", {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  id_embarcacao: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+  },
   id_nivel: {
     type: DataTypes.INTEGER,
     allowNull: true,
@@ -67,6 +72,11 @@ Usuario.belongsTo(Nivel, {
 
 Usuario.belongsTo(Empresa, {
   foreignKey: "id_empresa",
+  foreignKeyConstraint: true,
+});
+
+Usuario.belongsTo(Embarcacao, {
+  foreignKey: "id_embarcacao",
   foreignKeyConstraint: true,
 });
 

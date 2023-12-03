@@ -2,6 +2,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const conn = require("../data/conn");
 
 const Rota = require("./tb_rota");
+const Empresa = require("./tb_empresa");
 
 
 const Passagem = conn.define("tb011_passagem", {
@@ -14,11 +15,19 @@ const Passagem = conn.define("tb011_passagem", {
         type: DataTypes.INTEGER,
         allowNull: true,
     },
+    id_empresa: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+    },
     nome: {
         type: DataTypes.STRING,
         allowNull: false,
     },
     nacimento: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    valor: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -70,11 +79,23 @@ const Passagem = conn.define("tb011_passagem", {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    alimentacao: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
     numeroVenda: {
         type: DataTypes.STRING,
         allowNull: false,
     },
     agente: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    status_pagamento: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    checkin: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -86,6 +107,12 @@ Passagem.belongsTo(Rota, {
     foreignKey: "id_rota",
     foreignKeyConstraint: true,
 });
+
+Passagem.belongsTo(Empresa, {
+    foreignKey: "id_empresa",
+    foreignKeyConstraint: true,
+});
+
 
 
 

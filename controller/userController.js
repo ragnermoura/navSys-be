@@ -18,7 +18,8 @@ const criarUsuario = async (req, res, next) => {
       telefone: req.body.telefone,
       municipio: req.body.municipio,
       id_nivel: req.body.id_nivel,
-      id_status: req.body.id_status
+      id_status: req.body.id_status,
+      id_empresa: req.body.id_empresa
     });
 
     
@@ -35,6 +36,26 @@ const criarUsuario = async (req, res, next) => {
 const obterUsuarios = async (req, res, next) => {
   try {
     const usuarios = await Usuario.findAll();
+    res.status(200).send(usuarios);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const obterUsuariosPorEmpresa = async (req, res, next) => {
+  try {
+    // Acessa o id_empresa dos parâmetros da requisição
+    const { id_empresa } = req.params;
+
+    // Busca todos os usuários que pertencem a essa empresa
+    const usuarios = await Usuario.findAll({
+      where: { id_empresa: id_empresa }
+    });
+
+    if (!usuarios || usuarios.length === 0) {
+      return res.status(404).send({ message: 'Usuários não encontrados para esta empresa' });
+    }
+
     res.status(200).send(usuarios);
   } catch (error) {
     next(error);
@@ -92,5 +113,6 @@ module.exports = {
   obterUsuarios,
   obterUsuarioPorId,
   atualizarUsuario,
-  deletarUsuario
+  deletarUsuario,
+  obterUsuariosPorEmpresa
 };

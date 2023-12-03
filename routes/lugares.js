@@ -4,7 +4,7 @@ const lugaresController = require("../controller/lugaresController");
 
 router.get("/", lugaresController.obterLugares);
 router.post("/cadastro", lugaresController.criarLugar);
-router.patch("/edit/:id", lugaresController.atualizarLugar);
-router.delete("/delete/:id", lugaresController.excluirLugar);
+router.patch("/edit/:id_lugares", lugaresController.atualizarLugar);
+router.delete("/delete/:id_lugares", lugaresController.excluirLugar);
 
 module.exports = router;
