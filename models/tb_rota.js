@@ -50,8 +50,15 @@ const Rota = conn.define(
             type: DataTypes.INTEGER,
             allowNull: true,
         },
-
-        valor: {
+        valor_transporte: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        valor_alimentacao: {
+            type: DataTypes.STRING,
+            allowNull: false,
+        },
+        valor_total: {
             type: DataTypes.STRING,
             allowNull: false,
         },

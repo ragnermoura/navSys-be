@@ -15,7 +15,7 @@ const getAllLogos = async (req, res, next) => {
 // Método para buscar um logo pelo ID
 const getLogoById = async (req, res, next) => {
     try {
-        const logo = await Logo.findByPk(req.params.id);
+        const logo = await Logo.findByPk(req.params.id_empresa);
         if (logo) {
             res.send(logo);
         } else {
@@ -27,16 +27,17 @@ const getLogoById = async (req, res, next) => {
 };
 
 const addLogoWithImage = [
-    imageUpload.single('imagem'),
+    imageUpload.single('imagem'), 
     async (req, res, next) => {
         try {
-            const newLogo = await Logo.create({
+            const newAvatar = await Logo.create({
                 ...req.body,
-                imagem: req.file.path
+                imagem: req.file.path 
             });
-            res.status(201).send(newLogo);
+            res.status(201).send(newAvatar);
         } catch (error) {
             next(error);
+            console.log(error)
         }
     }
 ];

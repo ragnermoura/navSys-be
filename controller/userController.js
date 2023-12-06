@@ -78,6 +78,7 @@ const obterUsuarioPorId = async (req, res, next) => {
 
 const atualizarUsuario = async (req, res, next) => {
   try {
+    console.log('Requisição recebida para atualizar usuário com ID:', req.params.id_user);
     const [updated] = await Usuario.update(req.body, {
       where: { id_user: req.params.id_user }
     });
@@ -85,9 +86,11 @@ const atualizarUsuario = async (req, res, next) => {
       const updatedUsuario = await Usuario.findByPk(req.params.id_user);
       res.status(200).send(updatedUsuario);
     } else {
+      console.log('Usuário não encontrado para o ID:', req.params.id_user);
       res.status(404).send({ message: 'Usuário não encontrado' });
     }
   } catch (error) {
+    console.error('Erro ao atualizar usuário:', error);
     next(error);
   }
 };

@@ -14,7 +14,7 @@ const getAllAvatars = async (req, res, next) => {
 
 const getAvatarById = async (req, res, next) => {
     try {
-        const avatar = await Avatar.findByPk(req.params.id);
+        const avatar = await Avatar.findByPk(req.params.id_user);
         if (avatar) {
             res.send(avatar);
         } else {
@@ -36,6 +36,7 @@ const addAvatarWithImage = [
             res.status(201).send(newAvatar);
         } catch (error) {
             next(error);
+            console.log(error)
         }
     }
 ];

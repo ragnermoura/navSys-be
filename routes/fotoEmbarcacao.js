@@ -10,7 +10,7 @@ router.get('/fotos-embarcacao', FotoEmbarcacaoController.getAllFotosEmbarcacao);
 router.get('/fotos-embarcacao/:id', FotoEmbarcacaoController.getFotoEmbarcacaoById);
 
 // Rota para adicionar uma nova foto de embarcação com imagem
-router.post('/fotos-embarcacao', FotoEmbarcacaoController.addFotoEmbarcacaoWithImage);
+router.post('/fotos', FotoEmbarcacaoController.addFotoEmbarcacaoWithImage);
 
 // Rota para atualizar uma foto de embarcação, incluindo a imagem
 router.put('/fotos-embarcacao/:id', FotoEmbarcacaoController.updateFotoEmbarcacaoWithImage);

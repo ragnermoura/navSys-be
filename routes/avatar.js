@@ -7,7 +7,7 @@ const AvatarController = require('../controller/avatarController'); // Ajuste o 
 router.get('/avatars', AvatarController.getAllAvatars);
 
 // Rota para buscar um avatar específico pelo ID
-router.get('/avatars/:id', AvatarController.getAvatarById);
+router.get('/:id_user', AvatarController.getAvatarById);
 
 // Rota para adicionar um novo avatar com imagem
 router.post('/cadastrar', AvatarController.addAvatarWithImage);

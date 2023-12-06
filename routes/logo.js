@@ -7,7 +7,7 @@ const LogoController = require('../controller/logoController'); // Ajuste o cami
 router.get('/logos', LogoController.getAllLogos);
 
 // Rota para buscar um logo específico pelo ID
-router.get('/logos/:id', LogoController.getLogoById);
+router.get('/empresa/:id_empresa', LogoController.getLogoById);
 
 // Rota para adicionar um novo logo com imagem
 router.post('/cadastro', LogoController.addLogoWithImage);
