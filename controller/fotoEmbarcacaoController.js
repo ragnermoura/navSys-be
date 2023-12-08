@@ -2,6 +2,7 @@
 const FotoEmbarcacao = require('../models/tb_foto_embarcacao'); // Ajuste o caminho conforme necessário
 const { imageUpload } = require('../helpers/img-uploader'); // Importa o middleware de upload
 
+
 // Métodos da FotoEmbarcacaoController
 const getAllFotosEmbarcacao = async (req, res, next) => {
     try {
@@ -29,13 +30,14 @@ const addFotoEmbarcacaoWithImage = [
     imageUpload.single('imagem'), 
     async (req, res, next) => {
         try {
-            const newFoto = await FotoEmbarcacao.create({
+            const newAvatar = await FotoEmbarcacao.create({
                 ...req.body,
                 imagem: req.file.path 
             });
-            res.status(201).send(newFoto);
+            res.status(201).send(newAvatar);
         } catch (error) {
             next(error);
+            console.log(error)
         }
     }
 ];
