@@ -30,6 +30,24 @@ exports.obterEmbarcacoes = async (req, res) => {
   }
 };
 
+  exports.obterEmbarcacoesPorId = async (req, res, next) => {
+    try {
+      const { id_empresa } = req.params;
+
+      const embarcacao = await Embarcacao.findAll({
+        where: { id_empresa: id_empresa }
+      });
+
+      if (!embarcacao || embarcacao.length === 0) {
+        return res.status(404).send({ message: 'Embarcação não encontrados para esta empresa' });
+      }
+
+      res.status(200).send(embarcacao);
+    } catch (error) {
+      next(error);
+    }
+  };
+
 exports.atualizarEmbarcacao = async (req, res) => {
   const { id } = req.params;
   try {

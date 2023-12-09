@@ -21,7 +21,7 @@ const Empresa = conn.define("tb004_empresa", {
   endereco: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
+    
   },
   telefone1: {
     type: DataTypes.STRING,

@@ -11,3 +11,4 @@ router.get("/viagens/dodia", destinosController.obterViagensDoDia);
 router.delete("/delete/:id", destinosController.excluirDestino);
 
 module.exports = router;
+ 

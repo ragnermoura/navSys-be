@@ -38,7 +38,7 @@ const obterDestinosComData = async (req, res, next) => {
 };
 
 
-const obterDestinoPorEmpresa = async (req, res) => {
+const obterDestinoPorEmpresa = async (req, res, next) => {
   try {
     const { id_empresa } = req.params;
 

@@ -9,12 +9,29 @@ const obterLugares = async (req, res) => {
   }
 };
 
+const obterLugaresPorId = async (req, res) => {
+  try {
+    const { id_empresa } = req.params;
+
+    const lugar = await Lugares.findAll({
+      where: { id_empresa: id_empresa }
+    });
+
+    if (!lugar || lugar.length === 0) {
+      return res.status(404).send({ message: 'Embarcação não encontrados para esta empresa' });
+    }
+
+    res.status(200).send(lugar);
+  } catch (error) {
+    next(error);
+  }
+};
+
 const criarLugar = async (req, res) => {
   try {
-    // Verifica se req.body é um array. Se não for, transforma em um array.
+    
     const lugaresData = Array.isArray(req.body) ? req.body : [req.body];
 
-    // Agora, sempre vai ser um array, seja de um ou de vários objetos.
     const novosLugares = await Lugares.bulkCreate(lugaresData);
     res.json(novosLugares);
   } catch (error) {
@@ -58,6 +75,7 @@ const excluirLugar = async (req, res) => {
 
 module.exports = {
   obterLugares,
+  obterLugaresPorId,
   criarLugar,
   atualizarLugar,
   excluirLugar,
