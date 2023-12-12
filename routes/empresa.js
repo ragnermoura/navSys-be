@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const empresaController = require("../controller/empresaController");
 
 router.get("/", empresaController.obterEmpresas);
+router.get("/buscar/:id_empresa", empresaController.obterEmpresaPorId);
 router.post("/cadastro", empresaController.criarEmpresa);
 router.patch("/:id/edit", empresaController.atualizarEmpresa);
 router.delete("/:id/delete", empresaController.deletarEmpresa);

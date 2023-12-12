@@ -23,7 +23,7 @@ const obterEmpresas = async (req, res, next) => {
 // Buscar uma empresa pelo ID
 const obterEmpresaPorId = async (req, res, next) => {
   try {
-    const empresa = await Empresa.findByPk(req.params.id);
+    const empresa = await Empresa.findByPk(req.params.id_empresa);
     if (!empresa) {
       return res.status(404).send({ message: 'Empresa não encontrada' });
     }
