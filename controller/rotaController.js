@@ -111,10 +111,10 @@ const obterViagensDoDia = async (req, res) => {
 
 
 const excluirDestino = async (req, res) => {
-  const { id } = req.params;
+  const { id_rota } = req.params;
   try {
     const deleted = await Destinos.destroy({
-      where: { id_rota: id },
+      where: { id_rota: id_rota },
     });
     if (deleted) {
       res.status(204).send("Destino excluído com sucesso");
